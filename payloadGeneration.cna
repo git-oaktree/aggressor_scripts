@@ -1,3 +1,6 @@
+#This script needs to be run on the teamserver, using the agscript command. 
+#e.g. /agscript 127.0.0.1 50050 oaktree password payloadgeneration.cna
+
 on ready {
                 foreach $name (listeners_local()) {
                         $original_listener = $name;
