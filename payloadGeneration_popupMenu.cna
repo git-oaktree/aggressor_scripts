@@ -1,10 +1,7 @@
 #Automatic Artifact Payload Generator
 #repurposed code from @r3dQu1nn
-#Generates every type of Stageless/Staged Payload based off a HTTP/HTTPS Listener
+#Generates every type of Stageless/Staged Payload based off a HTTP/HTTPS & DNS Listener
 
-#Custom Directory for Payloads
-mkdir("/opt/cobaltstrike/Staged_Payloads");
-mkdir("/opt/cobaltstrike/Stageless_Payloads");
 
 menubar("Payload Generator", "payloadgenerator", 2);
 popup payloadgenerator {
