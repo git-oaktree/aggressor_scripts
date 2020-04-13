@@ -1,5 +1,5 @@
 #Automatic Artifact Payload Generator
-#Author: @r3dQu1nn
+#repurposed code from @r3dQu1nn
 #Generates every type of Stageless/Staged Payload based off a HTTP/HTTPS Listener
 
 #Custom Directory for Payloads
