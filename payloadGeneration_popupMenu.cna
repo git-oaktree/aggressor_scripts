@@ -10,30 +10,115 @@ menubar("Payload Generator", "payloadgenerator", 2);
 popup payloadgenerator {
 	item "&Automatic Artifact Payload Generator" {
 		prompt_confirm("Do you want to generate all the different types of Artifacts?", "Payload Generator Confirmation", {
-			show_message("Generating Artifacts...");
+			#show_message("Generating Artifacts...");
 			payloadgenerate();
+			$text = "Script run sucessfully, if successful, files saved at " . cwd(); 
+			show_message($text);
+
 		});
 	}
 }
 
 sub payloadgenerate {
                
-			   foreach $name (listeners_local()) {
+               foreach $name (listeners_local()) {
                         $original_listener = $name;
                         $payloadType = listener_info($name)['payload'];
 						$listenerName = listener_info($name)['name'];
+						println($listenerName);
                         if ($payloadType hasmatch "http" || $payloadType hasmatch "https") {
 
                                 $path = ">/tmp/staged_";
                                 $dataexe86 = artifact_stager($listenerName, "exe", "x86");
-                                $filename = $listenerName . "_x86.exe";
-								$fullpath = $path . $filename;
-                                $handle = openf(">>/tmp/quicktest.txt");
-                                elog($listenerName); 
-								writeb($handle, $dataexe86);
+                                $filename = ">".$listenerName . "_x86.exe";
+								$handle = openf($filename);
+                                writeb($handle, $dataexe86);
                                 closef($handle);
-								elog("supposedly file has been written");
-	
-			}
+
+                                $dataexe64 = artifact_stager($listenerName, "exe", "x64");
+                                $filename = ">".$listenerName . "_x64.exe";
+                                writeb($handle, $dataexe64);
+                                closef($handle);
+
+                                $datarawx86 = artifact_stager($listenerName, "raw", "x86");
+                                $filename = ">" .$listenerName . "_raw_x86.bin";
+                                $handle = openf($filename);
+                                writeb($handle, $datarawx86);
+                                closef($handle);
+
+                                $datarawx64 = artifact_stager($listenerName, "raw", "x64");
+                                $filename = ">" . $listenerName . "_raw_x64.bin";
+                                $handle = openf($filename);
+                                writeb($handle, $datarawx64);
+                                closef($handle);
+
+                                $vbscriptx86 = artifact_stager($listenerName, "vbscript", "x86");
+                                $filename = ">" . $listenerName . "_vbsscript_x86.vbs";
+                                $handle = openf($filename);
+                                writeb($handle, $vbscriptx86);
+                                closef($handle);
+
+                                $path = ">/tmp/stageless_";
+                                $dataexe86 = artifact_payload($listenerName, "exe", "x86");
+                                $filename = ">" . $listenerName . "_x86.exe";
+                                $handle = openf($filename);
+                                writeb($handle, $dataexe86);
+                                closef($handle);
+
+                                $dataexe64 = artifact_payload($listenerName, "exe", "x64");
+                                $filename = ">" . $listenerName . "_x64.exe";
+                                $handle = openf($filename);
+                                writeb($handle, $dataexe64);
+                                closef($handle);
+
+                                $datarawx86 = artifact_payload($listenerName, "raw", "x86");
+                                $filename = ">" . $listenerName . "_raw_x86.bin";
+                                $handle = openf($filename);
+                                writeb($handle, $datarawx86);
+                                closef($handle);
+
+                                $datarawx64 = artifact_payload($listenerName, "raw", "x64");
+                                $filename = ">" . $listenerName . "_raw_x64.bin";
+                                $handle = openf($filename);
+                                writeb($handle, $datarawx64);
+                                closef($handle);
+
+
+						}
+						if ($payloadType hasmatch "dns") {
+								$path = ">/tmp/staged_";
+                                $dataexe86 = artifact_stager($listenerName, "exe", "x86");
+                                $filename = ">" . $listenerName . "_x86.exe";
+                                $handle = openf($filename);
+                                writeb($handle, $dataexe86);
+                                closef($handle);                            
+
+                                $datarawx86 = artifact_stager($listenerName, "raw", "x86");
+                                $filename = ">" . $listenerName . "_raw_x86.bin";
+                                $handle = openf($filename);
+                                writeb($handle, $datarawx86);
+                                closef($handle);
+
+                                $vbscriptx86 = artifact_stager($listenerName, "vbscript", "x86");
+                                $filename = ">" . $listenerName . "vbsscript_x86.vbs";
+                                $handle = openf($filename);
+                                writeb($handle, $vbscriptx86);
+                                closef($handle);
+
+
+								$path = ">/tmp/stageless_";
+                                $dataexe86 = artifact_payload($listenerName, "exe", "x86");
+                                $filename = ">" . $listenerName . "_x86.exe";
+                                $handle = openf($filename);
+                                writeb($handle, $dataexe86);
+                                closef($handle);                            
+
+                                $datarawx86 = artifact_payload($listenerName, "raw", "x86");
+                                $filename = ">" . $listenerName . "_raw_x86.bin";
+                                $handle = openf($filename);
+                                writeb($handle, $datarawx86);
+                                closef($handle);
+
+                        }
         }
 }
